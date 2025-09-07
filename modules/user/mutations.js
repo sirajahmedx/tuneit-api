@@ -1,5 +1,5 @@
 const mutations = `#graphql
-    createCustomer(input: CreateCustomerInput!): Response
-    updateCustomer(input: UpdateCustomerInput!): Response
+    createCustomer(input: CreateCustomerInput!): CreateCustomerResponse
+    updateCustomer(input: UpdateCustomerInput!): UpdateCustomerResponse
 `;
 module.exports.mutations = mutations;

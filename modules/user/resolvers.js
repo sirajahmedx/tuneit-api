@@ -6,27 +6,10 @@ const mutations = {
   createCustomer: async (parent, args, context, info) => {
     try {
       if (!args.input) {
-        return {
-          success: false,
-          message: "Input is required",
-        };
+        throw new Error("Input is required");
       }
 
-      const input = {
-        ...args.input,
-        role: "user",
-      };
-
-      const response = await UserService.createCustomer(input);
-
-      if (!response) {
-        return {
-          success: false,
-          message: "No response from service",
-        };
-      }
-
-      return response;
+      return await UserService.createCustomer(args.input);
     } catch (error) {
       return {
         success: false,

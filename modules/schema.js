@@ -5,11 +5,11 @@ const schema = {
     ${User.typedefs} 
 
     type Response {
-      success: Boolean
-      message: String 
+      success: Boolean!
+      message: String!
     }
 
- type Query {
+    type Query {
       hello: String
       ${User.queries} 
     }
@@ -23,10 +23,10 @@ const schema = {
   resolvers: {
     Query: {
       hello: () => "Hello, world!",
-      ...User.resolvers.Query,
+      ...User.resolvers.queries,
     },
     Mutation: {
-      ...User.resolvers.Mutation,
+      ...User.resolvers.mutations,
     },
   },
   introspection: true,

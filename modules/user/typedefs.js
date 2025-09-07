@@ -44,9 +44,14 @@ const typedefs = `
         coordinates: [Float]
     }
 
-    type Response {
-        message: String
+    type CreateCustomerResponse {
         success: Boolean
+        message: String
+    }
+
+    type UpdateCustomerResponse {
+        success: Boolean
+        message: String
     }
 
     input CreateCustomerInput {

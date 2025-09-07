@@ -1,5 +1,5 @@
 const UserModel = require("./model");
-const { randomBytes, createHmac } = require("crypto");
+const { createHmac, randomBytes } = require("node:crypto");
 
 function generateHash(salt, password) {
   const hashedPassword = createHmac("sha256", salt)
@@ -19,11 +19,9 @@ async function getUserByPhone(phone) {
 }
 async function createCustomer(args) {
   try {
-    // Validate required fields
     if (!args.first_name) throw new Error("First name is required");
     if (!args.password) throw new Error("Password is required");
 
-    // Check for existing user
     if (args.phone) {
       const userExistByPhone = await getUserByPhone(args.phone);
       if (userExistByPhone) {
@@ -38,11 +36,9 @@ async function createCustomer(args) {
       }
     }
 
-    // Hash password
     const salt = randomBytes(32).toString("hex");
     const hashedPassword = generateHash(salt, args.password);
 
-    // Prepare user data
     const userData = {
       ...args,
       salt,
@@ -52,11 +48,10 @@ async function createCustomer(args) {
     const user = await UserModel.create(userData);
 
     if (!user) throw new Error("Failed to create user");
-
     return {
-      success: true,
-      message: "User created successfully",
-    };
+      success:true,
+      message: "Customer Created successfully!"
+    }
   } catch (error) {
     return {
       success: false,
