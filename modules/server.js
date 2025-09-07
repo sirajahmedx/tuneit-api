@@ -1,6 +1,6 @@
 const { ApolloServer } = require("@apollo/server");
-const dbConnect = require("./dbConnect");
-const schema = require("./graphqlSchema");
+const dbConnect = require("./database");
+const schema = require("./schema");
 
 const createApolloGraphqlServer = async () => {
   const gqlServer = new ApolloServer(schema);

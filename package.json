@@ -4,7 +4,8 @@
   "description": "Backend API for Tuner platform.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "@apollo/server": "4.11.0",
