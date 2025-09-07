@@ -49,9 +49,20 @@ const typedefs = `
         message: String
     }
 
-    type UpdateCustomerResponse {
+    type UpdateUserResponse {
         success: Boolean
         message: String
+    }
+
+    type SignInResponse {
+        success: Boolean
+        message: String
+        data: SignInData
+    }
+
+    type SignInData {
+       verified: [String]
+       token: String
     }
 
     input CreateCustomerInput {
@@ -84,7 +95,7 @@ const typedefs = `
         coordinates: [Float]
     }
 
-    input UpdateCustomerInput {
+    input UpdateUserInput {
         _id: ID!
         first_name: String
         last_name: String
@@ -98,6 +109,12 @@ const typedefs = `
         phone: String
         address: [AddressInput]
         experience: String
+    }
+
+    input SignInInput {
+        email: String
+        phone: String
+        password: String!
     }
 
 
