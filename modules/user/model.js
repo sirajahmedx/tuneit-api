@@ -41,9 +41,9 @@ const userSchema = new Schema(
       index: true,
     },
     cnic: { type: String, maxLength: 15 },
-    profile_picture: { type: String },
-    cnic_back_image: { type: String },
-    cnic_front_image: { type: String },
+    avatar: { type: String },
+    cnic_back: { type: String },
+    cnic_front: { type: String },
     phone: {
       type: String,
       maxLength: 20,
@@ -64,7 +64,6 @@ const userSchema = new Schema(
     otp_expiry: { type: Date },
     job_counts: { type: Number, default: 0 },
     experience: { type: Number, default: 0 },
-    // ratings: [ratingSchema],
     avg_rating: { type: Number, default: 0 },
     online: { type: Boolean, default: false },
     lastSeen: { type: Date, default: Date.now },
@@ -95,7 +94,6 @@ userSchema.index({ first_name: 1 });
 userSchema.index({ role: 1 });
 userSchema.index({ verified: 1 });
 userSchema.index({ status: 1 });
-userSchema.index({ skills: 1 });
 userSchema.index({ "addresses.location": "2dsphere" });
 
 module.exports =
