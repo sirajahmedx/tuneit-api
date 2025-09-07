@@ -1,29 +1,32 @@
+const { User } = require("./user");
 const schema = {
   typeDefs: `#graphql
-    
+     
+    ${User.typedefs} 
+
     type Response {
       success: Boolean
       message: String 
     }
 
-    type Query {
+ type Query {
       hello: String
+      ${User.queries} 
     }
 
     type Mutation {
-      echo(message: String!): Response
+      ${User.mutations}
     }
-  `,
+     
+    `,
 
   resolvers: {
     Query: {
       hello: () => "Hello, world!",
+      ...User.resolvers.Query,
     },
     Mutation: {
-      echo: (_, { message }) => ({
-        success: true,
-        message,
-      }),
+      ...User.resolvers.Mutation,
     },
   },
   introspection: true,
@@ -32,4 +35,5 @@ const schema = {
     success: false,
   }),
 };
+
 module.exports = schema;

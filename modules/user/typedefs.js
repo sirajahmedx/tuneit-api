@@ -1,11 +1,11 @@
 const typedefs = `
     type User {
         _id: ID!
-        first_name: String
+        first_name: String!
         last_name: String
-        email: String
+        email: String!
         age: Int
-        role: String
+        role: String!
         gender: String
         cnic: String
         avatar: String
@@ -16,7 +16,7 @@ const typedefs = `
         verified: [String]
         status: String
         account_status: String
-        password: String
+        password: String!
         salt: String
         token: String
         otp: String
@@ -44,10 +44,15 @@ const typedefs = `
         coordinates: [Float]
     }
 
-    input UserInput {
+    type Response {
+        message: String
+        success: Boolean
+    }
+
+    input CreateCustomerInput {
         first_name: String!
         last_name: String
-        email: String
+        email: String!
         age: Int
         role: String
         gender: String!
@@ -55,11 +60,10 @@ const typedefs = `
         avatar: String
         cnic_back: String
         cnic_front: String
-        phone: String!
+        phone: String
         address: [AddressInput]
         password: String!
         experience: String
-        password: String!
     }
         
     input AddressInput {
@@ -75,7 +79,7 @@ const typedefs = `
         coordinates: [Float]
     }
 
-    input UpdateUserInput {
+    input UpdateCustomerInput {
         _id: ID!
         first_name: String
         last_name: String
@@ -93,3 +97,5 @@ const typedefs = `
 
 
 `;
+
+module.exports.typedefs = typedefs;
