@@ -28,6 +28,10 @@ const typedefs = `
         last_seen: String
         createdAt: String
         updatedAt: String
+        google_id: String
+        provider: String
+        access_token: String
+        id_token: String
     }
 
     type Address {
@@ -64,6 +68,17 @@ const typedefs = `
        verified: [String]
        token: String
     }
+
+    type AuthResponse {
+        success: Boolean!
+        message: String!
+        token: String
+        user: User
+    }
+ 
+
+
+
 
     input CreateCustomerInput {
         first_name: String!
@@ -115,6 +130,17 @@ const typedefs = `
         email: String
         phone: String
         password: String!
+    }
+
+    input GoogleAuthInput {
+        email: String!
+        first_name: String!
+        last_name: String
+        provider: String!
+        google_id: String!
+        picture: String
+        access_token: String!
+        id_token: String!
     }
 
 

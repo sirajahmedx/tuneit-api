@@ -33,7 +33,7 @@ const userSchema = new Schema(
     role: {
       type: String,
       default: "user",
-      enum: ["mechanic", "admin", "user", "supplier"],
+      enum: ["mechanic", "admin", "user", "supplier", "customer"],
     },
     gender: {
       type: String,
@@ -67,6 +67,10 @@ const userSchema = new Schema(
     avg_rating: { type: Number, default: 0 },
     online: { type: Boolean, default: false },
     lastSeen: { type: Date, default: Date.now },
+    google_id: String,
+    provider: String,
+    access_token: String,
+    id_token: String,
     // deviceTokens: [{ type: String, default: [] }],
   },
   {

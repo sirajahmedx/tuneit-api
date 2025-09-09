@@ -48,6 +48,21 @@ const mutations = {
       };
     }
   },
+
+  googleAuth: async (parent, args, context, info) => {
+    try {
+      if (!args.input) {
+        throw new Error("Input is required");
+      }
+
+      return await UserService.googleAuth(args.input);
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message,
+      };
+    }
+  },
 };
 
 module.exports.resolvers = {

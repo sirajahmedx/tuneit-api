@@ -185,10 +185,63 @@ async function signIn(args) {
     );
   }
 }
+
+const googleAuth = async (input) => {
+  try {
+    // Check if user already exists
+    let user = await UserModel.findOne({ email: input.email });
+
+    if (!user) {
+      // Create new user for Google OAuth
+      user = new UserModel({
+        first_name: input.first_name,
+        last_name: input.last_name,
+        email: input.email,
+        role: "customer", // Default role
+        avatar: input.picture,
+        verified: ["email"], // Mark email as verified since it's from Google
+        account_status: "active",
+        password: "", // No password for OAuth users
+        google_id: input.google_id,
+        provider: input.provider,
+        access_token: input.access_token,
+        id_token: input.id_token,
+      });
+
+      await user.save();
+    } else {
+      // Update existing user's Google OAuth info
+      user.google_id = input.google_id;
+      user.provider = input.provider;
+      user.access_token = input.access_token;
+      user.id_token = input.id_token;
+      user.avatar = input.picture;
+      await user.save();
+    }
+
+    const token = generateToken(user);
+
+    return {
+      success: true,
+      message: "Authentication successful",
+      token,
+      user,
+    };
+  } catch (error) {
+    console.error("Google Auth Error:", error);
+    return {
+      success: false,
+      message: "Authentication failed",
+      token: null,
+      user: null,
+    };
+  }
+};
 module.exports.UserService = {
   getUserByEmail,
   getUserByPhone,
   createCustomer,
   updateUser,
   signIn,
+  googleAuth,
 };
