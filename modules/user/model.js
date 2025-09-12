@@ -44,15 +44,6 @@ const userSchema = new Schema(
     avatar: { type: String },
     cnic_back: { type: String },
     cnic_front: { type: String },
-    phone: {
-      type: String,
-      maxLength: 20,
-      unique: true,
-      sparse: true,
-      set: function (v) {
-        return v === "" ? null : v;
-      },
-    },
     addresses: [addressSchema],
     verified: [String],
     status: { type: String, default: "not-approved" },

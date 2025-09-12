@@ -53,7 +53,17 @@ const typedefs = `
         message: String
     }
 
-    type UpdateUserResponse {
+    type UpdateCustomerResponse {
+        success: Boolean
+        message: String
+    }
+
+    type CreateMechanicResponse {
+        success: Boolean
+        message: String
+    }
+
+    type UpdateMechanicResponse {
         success: Boolean
         message: String
     }
@@ -78,24 +88,60 @@ const typedefs = `
  
 
 
-
-
     input CreateCustomerInput {
         first_name: String!
         last_name: String
         email: String!
-        age: Int
+        role: String
+        gender: String!
+        password: String
+        avatar: String
+        address: [AddressInput]
+    }
+
+    input CreateMechanicInput {
+        first_name: String!
+        last_name: String
+        email: String!
+        cnic: String
+        cnic_front: String
+        cnic_back: String
+        role: String
+        gender: String
+        password: String
+        avatar: String
+        address: [AddressInput]
+        experience: String
+    }
+
+    input UpdateCustomerInput {
+        _id: ID!
+        first_name: String!
+        last_name: String
+        email: String!
+        role: String
+        gender: String!
+        password: String
+        avatar: String
+        address: [AddressInput]
+    }
+
+    input UpdateMechanicInput {
+        _id: ID!
+        first_name: String!
+        last_name: String
+        email: String!
         role: String
         gender: String!
         cnic: String
-        avatar: String
-        cnic_back: String
         cnic_front: String
+        cnic_back: String
         phone: String
+        avatar: String
         address: [AddressInput]
-        password: String!
         experience: String
     }
+
         
     input AddressInput {
         city: String
@@ -108,22 +154,6 @@ const typedefs = `
     input LocationInput {
         type: String
         coordinates: [Float]
-    }
-
-    input UpdateUserInput {
-        _id: ID!
-        first_name: String
-        last_name: String
-        email: String
-        age: Int
-        gender: String
-        cnic: String
-        avatar: String
-        cnic_back: String
-        cnic_front: String
-        phone: String
-        address: [AddressInput]
-        experience: String
     }
 
     input SignInInput {

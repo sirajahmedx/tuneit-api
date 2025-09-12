@@ -60,6 +60,7 @@ async function createCustomer(args) {
 
     const userData = {
       ...args,
+      role: "user",
       salt,
       password: hashedPassword,
     };
@@ -79,7 +80,7 @@ async function createCustomer(args) {
   }
 }
 
-async function updateUser(args) {
+async function updateCustomer(args) {
   try {
     if (!args._id) throw new Error("User ID is required");
 
@@ -114,6 +115,94 @@ async function updateUser(args) {
     return {
       success: true,
       message: "User updated successfully!",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || "Failed to update user",
+    };
+  }
+}
+
+async function createMechanic(args) {
+  try {
+    if (!args.first_name) throw new Error("First name is required");
+    if (!args.password) throw new Error("Password is required");
+
+    if (args.phone) {
+      const userExistByPhone = await getUserByPhone(args.phone);
+      if (userExistByPhone) {
+        throw new Error("Phone number already exists");
+      }
+    }
+
+    if (args.email) {
+      const userExistByEmail = await getUserByEmail(args.email);
+      if (userExistByEmail) {
+        throw new Error("Email already exists");
+      }
+    }
+
+    const salt = randomBytes(32).toString("hex");
+    const hashedPassword = generateHash(salt, args.password);
+
+    const userData = {
+      ...args,
+      role: "mechanic",
+      salt,
+      password: hashedPassword,
+    };
+
+    const user = await UserModel.create(userData);
+
+    if (!user) throw new Error("Failed to create user");
+    return {
+      success: true,
+      message: "Mechanic Created successfully!",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || "Failed to create mechanic",
+    };
+  }
+}
+
+async function updateMechanic(args) {
+  try {
+    if (!args._id) throw new Error("User ID is required");
+
+    const user = await UserModel.findById(args._id);
+    if (!user) throw new Error("User not found");
+
+    if (args.email && args.email !== user.email) {
+      const userExistByEmail = await getUserByEmail(args.email);
+      if (userExistByEmail) {
+        throw new Error("Email already exists");
+      }
+    }
+
+    if (args.phone && args.phone !== user.phone) {
+      const userExistByPhone = await getUserByPhone(args.phone);
+      if (userExistByPhone) {
+        throw new Error("Phone number already exists");
+      }
+    }
+
+    const updatedData = { ...args };
+    delete updatedData._id;
+
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      args._id,
+      { $set: updatedData },
+      { new: true }
+    );
+
+    if (!updatedUser) throw new Error("Failed to update user");
+
+    return {
+      success: true,
+      message: "Mechanic updated successfully!",
     };
   } catch (error) {
     return {
@@ -188,20 +277,18 @@ async function signIn(args) {
 
 const googleAuth = async (input) => {
   try {
-    // Check if user already exists
     let user = await UserModel.findOne({ email: input.email });
 
     if (!user) {
-      // Create new user for Google OAuth
       user = new UserModel({
         first_name: input.first_name,
         last_name: input.last_name,
         email: input.email,
         role: "customer", // Default role
         avatar: input.picture,
-        verified: ["email"], // Mark email as verified since it's from Google
+        verified: ["email"],
         account_status: "active",
-        password: "", // No password for OAuth users
+        password: "",
         google_id: input.google_id,
         provider: input.provider,
         access_token: input.access_token,
@@ -210,7 +297,6 @@ const googleAuth = async (input) => {
 
       await user.save();
     } else {
-      // Update existing user's Google OAuth info
       user.google_id = input.google_id;
       user.provider = input.provider;
       user.access_token = input.access_token;
@@ -241,7 +327,9 @@ module.exports.UserService = {
   getUserByEmail,
   getUserByPhone,
   createCustomer,
-  updateUser,
+  updateCustomer,
+  createMechanic,
+  updateMechanic,
   signIn,
   googleAuth,
 };

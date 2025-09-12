@@ -1,3 +1,4 @@
+const { updateSearchIndex } = require("./model");
 const { UserService } = require("./service");
 
 const queries = {};
@@ -19,13 +20,42 @@ const mutations = {
     }
   },
 
-  updateUser: async (parent, args, context, info) => {
+  updateCustomer: async (parent, args, context, info) => {
     try {
       if (!args.input) {
         throw new Error("Input is required");
       }
 
-      return await UserService.updateUser(args.input);
+      return await UserService.updateCustomer(args.input);
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message || "An error occurred while updating the user",
+      };
+    }
+  },
+  createMechanic: async (parent, args, context, info) => {
+    try {
+      if (!args.input) {
+        throw new Error("Input is required");
+      }
+
+      return await UserService.createMechanic(args.input);
+    } catch (error) {
+      return {
+        success: false,
+        message:
+          error.message || "An error occurred while creating the mechanic",
+      };
+    }
+  },
+  updateMechanic: async (parent, args, context, info) => {
+    try {
+      if (!args.input) {
+        throw new Error("Input is required");
+      }
+
+      return await UserService.updateMechanic(args.input);
     } catch (error) {
       return {
         success: false,
