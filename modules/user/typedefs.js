@@ -11,7 +11,7 @@ const typedefs = `
         avatar: String
         cnic_back: String
         cnic_front: String
-        phone: String
+        # phone: String
         address: [Address]
         verified: [String]
         status: String
@@ -136,7 +136,7 @@ const typedefs = `
         cnic: String
         cnic_front: String
         cnic_back: String
-        phone: String
+        # phone: String
         avatar: String
         address: [AddressInput]
         experience: String
@@ -158,7 +158,7 @@ const typedefs = `
 
     input SignInInput {
         email: String
-        phone: String
+        # phone: String
         password: String!
     }
 

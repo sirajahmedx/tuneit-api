@@ -76,14 +76,14 @@ userSchema.index(
     partialFilterExpression: { email: { $exists: true, $ne: null, $ne: "" } },
   }
 );
-userSchema.index(
-  { phone: 1 },
-  {
-    unique: true,
-    sparse: true,
-    partialFilterExpression: { phone: { $exists: true, $ne: null, $ne: "" } },
-  }
-);
+// userSchema.index(
+//   { phone: 1 },
+//   {
+//     unique: true,
+//     sparse: true,
+//     partialFilterExpression: { phone: { $exists: true, $ne: null, $ne: "" } },
+//   }
+// );
 
 userSchema.index({ first_name: 1 });
 userSchema.index({ role: 1 });

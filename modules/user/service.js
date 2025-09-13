@@ -14,10 +14,10 @@ async function getUserByEmail(email) {
   return user || null;
 }
 
-async function getUserByPhone(phone) {
-  const user = await UserModel.findOne({ phone });
-  return user || null;
-}
+// async function getUserByPhone(phone) {
+//   const user = await UserModel.findOne({ phone });
+//   return user || null;
+// }
 
 function generateToken(user) {
   if (!user) throw new Error("User not found");
@@ -30,7 +30,7 @@ function generateToken(user) {
     {
       _id: user._id,
       email: user.email,
-      phone: user.phone,
+      // phone: user.phone,
       role: user.role,
     },
     process.env.JWT_SECRET
@@ -41,12 +41,12 @@ async function createCustomer(args) {
     if (!args.first_name) throw new Error("First name is required");
     if (!args.password) throw new Error("Password is required");
 
-    if (args.phone) {
-      const userExistByPhone = await getUserByPhone(args.phone);
-      if (userExistByPhone) {
-        throw new Error("Phone number already exists");
-      }
-    }
+    // if (args.phone) {
+    //   const userExistByPhone = await getUserByPhone(args.phone);
+    //   if (userExistByPhone) {
+    //     throw new Error("Phone number already exists");
+    //   }
+    // }
 
     if (args.email) {
       const userExistByEmail = await getUserByEmail(args.email);
@@ -94,12 +94,12 @@ async function updateCustomer(args) {
       }
     }
 
-    if (args.phone && args.phone !== user.phone) {
-      const userExistByPhone = await getUserByPhone(args.phone);
-      if (userExistByPhone) {
-        throw new Error("Phone number already exists");
-      }
-    }
+    // if (args.phone && args.phone !== user.phone) {
+    //   const userExistByPhone = await getUserByPhone(args.phone);
+    //   if (userExistByPhone) {
+    //     throw new Error("Phone number already exists");
+    //   }
+    // }
 
     const updatedData = { ...args };
     delete updatedData._id;
@@ -129,12 +129,12 @@ async function createMechanic(args) {
     if (!args.first_name) throw new Error("First name is required");
     if (!args.password) throw new Error("Password is required");
 
-    if (args.phone) {
-      const userExistByPhone = await getUserByPhone(args.phone);
-      if (userExistByPhone) {
-        throw new Error("Phone number already exists");
-      }
-    }
+    // if (args.phone) {
+    //   const userExistByPhone = await getUserByPhone(args.phone);
+    //   if (userExistByPhone) {
+    //     throw new Error("Phone number already exists");
+    //   }
+    // }
 
     if (args.email) {
       const userExistByEmail = await getUserByEmail(args.email);
@@ -182,12 +182,12 @@ async function updateMechanic(args) {
       }
     }
 
-    if (args.phone && args.phone !== user.phone) {
-      const userExistByPhone = await getUserByPhone(args.phone);
-      if (userExistByPhone) {
-        throw new Error("Phone number already exists");
-      }
-    }
+    // if (args.phone && args.phone !== user.phone) {
+    //   const userExistByPhone = await getUserByPhone(args.phone);
+    //   if (userExistByPhone) {
+    //     throw new Error("Phone number already exists");
+    //   }
+    // }
 
     const updatedData = { ...args };
     delete updatedData._id;
@@ -218,11 +218,12 @@ async function signIn(args) {
     let user;
     if (email) {
       user = await getUserByEmail(email);
-    } else if (phone) {
-      user = await getUserByPhone(phone);
-    } else {
-      throw new Error("Email or phone is required");
     }
+    // else if (phone) {
+    //   user = await getUserByPhone(phone);`
+    // } else {
+    //   throw new Error("Email or phone is required");
+    // }
 
     if (!user) {
       throw new Error("User not found");
@@ -325,7 +326,7 @@ const googleAuth = async (input) => {
 };
 module.exports.UserService = {
   getUserByEmail,
-  getUserByPhone,
+  // getUserByPhone,
   createCustomer,
   updateCustomer,
   createMechanic,
