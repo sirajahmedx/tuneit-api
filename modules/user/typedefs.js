@@ -116,11 +116,11 @@ const typedefs = `
 
     input UpdateCustomerInput {
         _id: ID!
-        first_name: String!
+        first_name: String
         last_name: String
-        email: String!
+        email: String
         role: String
-        gender: String!
+        gender: String
         password: String
         avatar: String
         address: [AddressInput]
@@ -128,11 +128,11 @@ const typedefs = `
 
     input UpdateMechanicInput {
         _id: ID!
-        first_name: String!
+        first_name: String
         last_name: String
-        email: String!
+        email: String
         role: String
-        gender: String!
+        gender: String
         cnic: String
         cnic_front: String
         cnic_back: String
