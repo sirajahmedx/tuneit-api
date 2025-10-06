@@ -1,8 +1,10 @@
 const { User } = require("./user");
+const { Service } = require("./service");
 const schema = {
   typeDefs: `#graphql
-     
-    ${User.typedefs} 
+
+    ${User.typedefs}
+    ${Service.typedefs}
 
     type Response {
       success: Boolean!
@@ -12,10 +14,12 @@ const schema = {
     type Query {
       hello: String
       ${User.queries} 
+      ${Service.queries}
     }
 
     type Mutation {
       ${User.mutations}
+      ${Service.mutations}
     }
      
     `,
@@ -24,9 +28,11 @@ const schema = {
     Query: {
       hello: () => "Hello, world!",
       ...User.resolvers.queries,
+      ...Service.resolvers.queries,
     },
     Mutation: {
       ...User.resolvers.mutations,
+      ...Service.resolvers.mutations,
     },
   },
   introspection: true,
