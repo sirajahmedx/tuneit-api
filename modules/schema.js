@@ -28,7 +28,6 @@ const schema = {
     Query: {
       hello: () => "Hello, world!",
       ...User.resolvers.queries,
-      ...Service.resolvers.queries,
     },
     Mutation: {
       ...User.resolvers.mutations,

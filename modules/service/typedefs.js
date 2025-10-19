@@ -5,6 +5,7 @@ const typedefs = `
     description: String
     price_type: String
     prices: [Price]
+    banner: String
     images: [String]
     featured: Boolean
     discount: Float
@@ -48,12 +49,12 @@ const typedefs = `
     service_type: String
     category: String
     description: String
-    sub_category: String
-    tradesman: String
+    sub_category: String 
     price_type: String
     prices: [PriceInput]
     visit_type: String
-    image: String
+    banner: String
+    images: [String]
     isFeatured: Boolean
     duration: Float
     discount: Float
@@ -68,7 +69,6 @@ const typedefs = `
     service_type: String
     category: String
     sub_category: String
-    tradesman: String
     keywords: String
     isFeatured: Boolean
     search: String
