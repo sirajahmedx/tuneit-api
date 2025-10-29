@@ -32,6 +32,7 @@ const queries = {
 const mutations = {
   createService: async (parent, args, context, info) => {
     try {
+      console.log(context.user);
       if (!context.user) throw new Error("Unauthorized access");
       if (!args) throw new Error("Invalid arguments");
       if (!args.input) throw new Error("Service input is required");

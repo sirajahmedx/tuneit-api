@@ -77,6 +77,8 @@ const typedefs = `
     type SignInData {
        verified: [String]
        token: String
+       role: String
+       onboarded: Boolean
     }
 
     type AuthResponse {
@@ -164,7 +166,7 @@ const typedefs = `
 
     input GoogleAuthInput {
         email: String!
-        first_name: String!
+        first_name: String
         last_name: String
         provider: String!
         google_id: String!

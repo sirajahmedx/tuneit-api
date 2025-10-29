@@ -214,13 +214,13 @@ async function updateMechanic(args) {
 
 async function signIn(args) {
   try {
-    const { email, phone, password } = args;
+    const { email, password } = args;
     let user;
     if (email) {
       user = await getUserByEmail(email);
     }
     // else if (phone) {
-    //   user = await getUserByPhone(phone);`
+    //   user = await getUserByPhone(phone);
     // } else {
     //   throw new Error("Email or phone is required");
     // }
@@ -254,18 +254,33 @@ async function signIn(args) {
         data: {
           verified: [],
           token: null,
+          role: user.role,
         },
       };
     }
 
     const token = generateToken(user);
-
+    let onboarded = false;
+    if (user.role === "mechanic") {
+      if (
+        user.experience &&
+        user.experience > 0 &&
+        user.cnic &&
+        user.cnic.length > 0
+      ) {
+        onboarded = true;
+      }
+    } else {
+      onboarded = true;
+    }
     return {
       success: true,
       message: "Login successful",
       data: {
         verified: [...user.verified],
         token,
+        role: user.role,
+        onboarded: onboarded,
       },
     };
   } catch (error) {

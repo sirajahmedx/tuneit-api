@@ -1,4 +1,3 @@
-const { updateSearchIndex } = require("./model");
 const { UserService } = require("./service");
 
 const queries = {};

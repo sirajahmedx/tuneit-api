@@ -55,10 +55,11 @@ const typedefs = `
     visit_type: String
     banner: String
     images: [String]
-    isFeatured: Boolean
+    featured: Boolean
     duration: Float
     discount: Float
     status: String
+    service_count: Int
     requires_advance_payment: Boolean
     advance_payment_percentage: Float
     keywords: [String]
@@ -70,7 +71,7 @@ const typedefs = `
     category: String
     sub_category: String
     keywords: String
-    isFeatured: Boolean
+    featured: Boolean
     search: String
     visit_type: String
   }
