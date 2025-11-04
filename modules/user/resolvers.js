@@ -25,7 +25,7 @@ const mutations = {
         throw new Error("Input is required");
       }
 
-      return await UserService.updateCustomer(args.input);
+      return await UserService.updateCustomer(args);
     } catch (error) {
       return {
         success: false,
@@ -39,7 +39,7 @@ const mutations = {
         throw new Error("Input is required");
       }
 
-      return await UserService.createMechanic(args.input);
+      return await UserService.createMechanic(args);
     } catch (error) {
       return {
         success: false,
@@ -54,7 +54,7 @@ const mutations = {
         throw new Error("Input is required");
       }
 
-      return await UserService.updateMechanic(args.input);
+      return await UserService.updateMechanic(args);
     } catch (error) {
       return {
         success: false,
@@ -69,7 +69,7 @@ const mutations = {
         throw new Error("Input is required");
       }
 
-      return await UserService.signIn(args.input);
+      return await UserService.signIn(args);
     } catch (error) {
       return {
         success: false,
@@ -84,7 +84,7 @@ const mutations = {
         throw new Error("Input is required");
       }
 
-      return await UserService.googleAuth(args.input);
+      return await UserService.googleAuth(args);
     } catch (error) {
       return {
         success: false,

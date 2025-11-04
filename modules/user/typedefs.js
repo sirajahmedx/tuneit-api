@@ -91,7 +91,7 @@ const typedefs = `
 
 
     input CreateCustomerInput {
-        first_name: String!
+        first_name: String
         last_name: String
         email: String!
         role: String
@@ -102,7 +102,7 @@ const typedefs = `
     }
 
     input CreateMechanicInput {
-        first_name: String!
+        first_name: String
         last_name: String
         email: String!
         cnic: String

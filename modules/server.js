@@ -11,7 +11,7 @@ const createApolloGraphqlServer = async () => {
 const context = {
   context: async ({ req, res }) => {
     await dbConnect();
-    console.log("Context user:", req.user);
+    // console.log("Context user:", req.user);
     // console.log("Context request:", req);
     // console.log("Context response:", res);
 

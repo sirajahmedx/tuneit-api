@@ -38,28 +38,29 @@ function generateToken(user) {
 }
 async function createCustomer(args) {
   try {
-    if (!args.first_name) throw new Error("First name is required");
-    if (!args.password) throw new Error("Password is required");
+    const { input } = args;
+    if (!input.first_name) throw new Error("First name is required");
+    if (!input.password) throw new Error("Password is required");
 
-    // if (args.phone) {
-    //   const userExistByPhone = await getUserByPhone(args.phone);
+    // if (input.phone) {
+    //   const userExistByPhone = await getUserByPhone(input.phone);
     //   if (userExistByPhone) {
     //     throw new Error("Phone number already exists");
     //   }
     // }
 
-    if (args.email) {
-      const userExistByEmail = await getUserByEmail(args.email);
+    if (input.email) {
+      const userExistByEmail = await getUserByEmail(input.email);
       if (userExistByEmail) {
         throw new Error("Email already exists");
       }
     }
 
     const salt = randomBytes(32).toString("hex");
-    const hashedPassword = generateHash(salt, args.password);
+    const hashedPassword = generateHash(salt, input.password);
 
     const userData = {
-      ...args,
+      ...input,
       role: "user",
       salt,
       password: hashedPassword,
@@ -82,26 +83,27 @@ async function createCustomer(args) {
 
 async function updateCustomer(args) {
   try {
-    if (!args._id) throw new Error("User ID is required");
+    const { input } = args;
+    if (!input._id) throw new Error("User ID is required");
 
-    const user = await UserModel.findById(args._id);
+    const user = await UserModel.findById(input._id);
     if (!user) throw new Error("User not found");
 
-    if (args.email && args.email !== user.email) {
-      const userExistByEmail = await getUserByEmail(args.email);
+    if (input.email && input.email !== user.email) {
+      const userExistByEmail = await getUserByEmail(input.email);
       if (userExistByEmail) {
         throw new Error("Email already exists");
       }
     }
 
-    // if (args.phone && args.phone !== user.phone) {
-    //   const userExistByPhone = await getUserByPhone(args.phone);
+    // if (input.phone && input.phone !== user.phone) {
+    //   const userExistByPhone = await getUserByPhone(input.phone);
     //   if (userExistByPhone) {
     //     throw new Error("Phone number already exists");
     //   }
     // }
 
-    const updatedData = { ...args };
+    const updatedData = { ...input };
     delete updatedData._id;
 
     const updatedUser = await UserModel.findByIdAndUpdate(
@@ -126,28 +128,29 @@ async function updateCustomer(args) {
 
 async function createMechanic(args) {
   try {
-    if (!args.first_name) throw new Error("First name is required");
-    if (!args.password) throw new Error("Password is required");
+    const { input } = args;
+    if (!input.first_name) throw new Error("First name is required");
+    if (!input.password) throw new Error("Password is required");
 
-    // if (args.phone) {
-    //   const userExistByPhone = await getUserByPhone(args.phone);
+    // if (input.phone) {
+    //   const userExistByPhone = await getUserByPhone(input.phone);
     //   if (userExistByPhone) {
     //     throw new Error("Phone number already exists");
     //   }
     // }
 
-    if (args.email) {
-      const userExistByEmail = await getUserByEmail(args.email);
+    if (input.email) {
+      const userExistByEmail = await getUserByEmail(input.email);
       if (userExistByEmail) {
         throw new Error("Email already exists");
       }
     }
 
     const salt = randomBytes(32).toString("hex");
-    const hashedPassword = generateHash(salt, args.password);
+    const hashedPassword = generateHash(salt, input.password);
 
     const userData = {
-      ...args,
+      ...input,
       role: "mechanic",
       salt,
       password: hashedPassword,
@@ -170,30 +173,31 @@ async function createMechanic(args) {
 
 async function updateMechanic(args) {
   try {
-    if (!args._id) throw new Error("User ID is required");
+    const { input } = args;
+    if (!input._id) throw new Error("User ID is required");
 
-    const user = await UserModel.findById(args._id);
+    const user = await UserModel.findById(input._id);
     if (!user) throw new Error("User not found");
 
-    if (args.email && args.email !== user.email) {
-      const userExistByEmail = await getUserByEmail(args.email);
+    if (input.email && input.email !== user.email) {
+      const userExistByEmail = await getUserByEmail(input.email);
       if (userExistByEmail) {
         throw new Error("Email already exists");
       }
     }
 
-    // if (args.phone && args.phone !== user.phone) {
-    //   const userExistByPhone = await getUserByPhone(args.phone);
+    // if (input.phone && input.phone !== user.phone) {
+    //   const userExistByPhone = await getUserByPhone(input.phone);
     //   if (userExistByPhone) {
     //     throw new Error("Phone number already exists");
     //   }
     // }
 
-    const updatedData = { ...args };
+    const updatedData = { ...input };
     delete updatedData._id;
 
     const updatedUser = await UserModel.findByIdAndUpdate(
-      args._id,
+      input._id,
       { $set: updatedData },
       { new: true }
     );
@@ -214,7 +218,9 @@ async function updateMechanic(args) {
 
 async function signIn(args) {
   try {
-    const { email, password } = args;
+    const { input } = args;
+
+    const { email, password } = input;
     let user;
     if (email) {
       user = await getUserByEmail(email);
@@ -291,8 +297,9 @@ async function signIn(args) {
   }
 }
 
-const googleAuth = async (input) => {
+const googleAuth = async (args) => {
   try {
+    const { input } = args;
     let user = await UserModel.findOne({ email: input.email });
 
     if (!user) {
