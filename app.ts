@@ -1,12 +1,14 @@
-require("dotenv").config();
-const { expressMiddleware } = require("@apollo/server/express4");
-const express = require("express");
-const { createApolloGraphqlServer, context } = require("./modules/server");
-const cors = require("cors");
-const dbConnect = require("./modules/database");
+import { config } from "dotenv";
+config();
+import express from "express";
+import type { Express } from "express";
+import cors from "cors";
+import { expressMiddleware } from "@apollo/server/express4";
+import { createApolloGraphqlServer, context } from "./modules/server";
+import { dbConnect } from "./modules/db";
 
 const func = async () => {
-  const app = express();
+  const app: Express = express();
   const PORT = process.env.PORT || 8080;
   await dbConnect();
   app.use(express.json({ limit: "50mb" }));
@@ -23,10 +25,8 @@ const func = async () => {
     })
   );
 
-  app.use(
-    "/graphql",
-    expressMiddleware(await createApolloGraphqlServer(), context)
-  );
+  const server = await createApolloGraphqlServer();
+  app.use("/graphql", expressMiddleware(server, { context }) as any);
   app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 };
 

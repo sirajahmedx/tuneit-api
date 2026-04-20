@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const ServiceSchema = new mongoose.Schema(
   {
@@ -51,7 +51,7 @@ const ServiceSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
-    service_count: {
+    count: {
       type: Number,
       default: 0,
     },
@@ -66,5 +66,7 @@ ServiceSchema.index({ status: 1 });
 ServiceSchema.index({ featured: 1 });
 ServiceSchema.index({ created_at: -1 });
 
-module.exports =
-  mongoose.models.ServiceModel || mongoose.model("ServiceModel", ServiceSchema);
+
+const model = mongoose.model("Service", ServiceSchema);
+
+export { model };

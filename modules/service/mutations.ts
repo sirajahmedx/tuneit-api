@@ -7,4 +7,5 @@ const mutations = `#graphql
   deleteServiceById(id: String!): Response
 
 `;
-module.exports.mutations = mutations;
+
+export { mutations }

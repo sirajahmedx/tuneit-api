@@ -10,7 +10,7 @@ const typedefs = `
     featured: Boolean
     discount: Float
     status: String
-    service_count: Int
+    count: Int
     keywords: [String]
     created_at: String
     updated_at: String
@@ -52,14 +52,13 @@ const typedefs = `
     sub_category: String 
     price_type: String
     prices: [PriceInput]
-    visit_type: String
     banner: String
     images: [String]
     featured: Boolean
     duration: Float
     discount: Float
     status: String
-    service_count: Int
+    count: Int
     requires_advance_payment: Boolean
     advance_payment_percentage: Float
     keywords: [String]
@@ -73,8 +72,7 @@ const typedefs = `
     keywords: String
     featured: Boolean
     search: String
-    visit_type: String
   }
 `;
 
-module.exports.typedefs = typedefs;
+export { typedefs }

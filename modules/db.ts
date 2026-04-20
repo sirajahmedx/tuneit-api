@@ -1,11 +1,20 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/tuneit";
 
 if (!MONGO_URI) {
   throw new Error(
     "Please define the MONGO_URI environment variable inside .env.local"
   );
+}
+
+interface MongooseCache {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
+}
+
+declare global {
+  var mongoose: MongooseCache;
 }
 
 let cached = global.mongoose;
@@ -21,7 +30,7 @@ async function dbConnect() {
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(MONGO_URI)
+      .connect(MONGO_URI as string)
       .then((mongoose) => {
         return mongoose;
       })
@@ -35,4 +44,4 @@ async function dbConnect() {
   return cached.conn;
 }
 
-module.exports = dbConnect;
+export { dbConnect };

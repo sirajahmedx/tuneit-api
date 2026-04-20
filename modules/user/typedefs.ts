@@ -178,4 +178,4 @@ const typedefs = `
 
 `;
 
-module.exports.typedefs = typedefs;
+export { typedefs }

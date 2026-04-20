@@ -1,31 +1,13 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const { Schema } = mongoose;
-
-const addressSchema = new Schema({
-  city: { type: String, maxLength: 50 },
-  flat: { type: String, maxLength: 100 },
-  full_address: { type: String, maxLength: 200 },
-  is_default: { type: Boolean, default: false },
-  location: {
-    type: {
-      type: String,
-      enum: ["Point"],
-      default: "Point",
-    },
-    coordinates: {
-      type: [Number],
-    },
-  },
-});
 
 const userSchema = new Schema(
   {
-    first_name: { type: String, maxLength: 50 },
-    last_name: { type: String, maxLength: 50 },
+    full_name: { type: String, maxLength: 50 },
     email: {
       type: String,
       maxLength: 50,
-      set: function (v) {
+      set: function (v:any) {
         return v === "" ? null : v;
       },
     },
@@ -44,10 +26,8 @@ const userSchema = new Schema(
     avatar: { type: String },
     cnic_back: { type: String },
     cnic_front: { type: String },
-    addresses: [addressSchema],
     verified: [String],
     status: { type: String, default: "not-approved" },
-    account_status: { type: String, default: "active" },
     password: { type: String, maxLength: 100 },
     salt: { type: String },
     token: { type: String },
@@ -62,7 +42,6 @@ const userSchema = new Schema(
     provider: String,
     access_token: String,
     id_token: String,
-    // deviceTokens: [{ type: String, default: [] }],
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
@@ -73,7 +52,7 @@ userSchema.index(
   { email: 1 },
   {
     unique: true,
-    partialFilterExpression: { email: { $exists: true, $ne: null, $ne: "" } },
+    partialFilterExpression: { email: { $exists: true, $ne: null} },
   }
 );
 // userSchema.index(
@@ -89,7 +68,5 @@ userSchema.index({ first_name: 1 });
 userSchema.index({ role: 1 });
 userSchema.index({ verified: 1 });
 userSchema.index({ status: 1 });
-userSchema.index({ "addresses.location": "2dsphere" });
 
-module.exports =
-  mongoose.models.UserModel || mongoose.model("UserModel", userSchema);
+export const model = mongoose.model("User", userSchema);

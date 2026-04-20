@@ -1,9 +1,9 @@
-const { ServiceDataSource } = require("./service");
+import { service } from "./service";
 const queries = {
-  getAllServices: async (parent, args, context, info) => {
+  getAllServices: async (parent:any, args:object, context:any, info:any) => {
     try {
-      return await ServiceDataSource.getAllServices(args);
-    } catch (error) {
+      return await service.getAllServices(args);
+    } catch (error:any) {
       console.log(error);
       return {
         success: false,
@@ -13,12 +13,12 @@ const queries = {
     }
   },
 
-  getServiceById: async (parent, args, context, info) => {
+  getServiceById: async (parent:unknown, args:{ id: string }, context:any, info:string) => {
     try {
       if (!args) throw new Error("Invalid arguments");
       if (!args.id) throw new Error("Service ID is required");
-      return await ServiceDataSource.getServiceById(args.id);
-    } catch (error) {
+      return await service.getServiceById(args.id);
+    } catch (error:any) {
       console.log(error);
       return {
         success: false,
@@ -30,14 +30,14 @@ const queries = {
 };
 
 const mutations = {
-  createService: async (parent, args, context, info) => {
+  createService: async (parent:unknown, args:{ input: any }, context:any, info:any) => {
     try {
       console.log(context.user);
       if (!context.user) throw new Error("Unauthorized access");
       if (!args) throw new Error("Invalid arguments");
       if (!args.input) throw new Error("Service input is required");
-      return await ServiceDataSource.createService(args.input);
-    } catch (error) {
+      return await service.createService(args.input);
+    } catch (error:any) {
       console.log(error);
       return {
         success: false,
@@ -47,14 +47,14 @@ const mutations = {
     }
   },
 
-  updateService: async (parent, args, context, info) => {
+  updateService: async (parent:unknown, args:{ id: string; input: any }, context:any, info:any) => {
     try {
       if (!context.user) throw new Error("Unauthorized access");
       if (!args) throw new Error("Invalid arguments");
       if (!args.id) throw new Error("Service ID is required");
       if (!args.input) throw new Error("Service input is required");
-      return await ServiceDataSource.updateService(args);
-    } catch (error) {
+      return await service.updateService(args);
+    } catch (error:any) {
       console.log(error);
       return {
         success: false,
@@ -64,13 +64,13 @@ const mutations = {
     }
   },
 
-  deleteServiceById: async (parent, args, context, info) => {
+  deleteServiceById: async (parent:unknown, args:{ id: string }, context:any, info:any) => {
     try {
       if (!context.user) throw new Error("Unauthorized access");
       if (!args) throw new Error("Invalid arguments");
-      if (!args._id) throw new Error("Service ID is required");
-      return await ServiceDataSource.deleteServiceById(args._id);
-    } catch (error) {
+      if (!args.id) throw new Error("Service ID is required");
+      return await service.deleteServiceById(args.id);
+    } catch (error:any) {
       console.log(error);
       return {
         success: false,
@@ -81,4 +81,7 @@ const mutations = {
   },
 };
 
-module.exports.resolvers = { queries, mutations };
+export const resolvers = {
+  queries,
+  mutations,
+};

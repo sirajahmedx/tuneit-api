@@ -6,4 +6,4 @@ const mutations = `#graphql
     signIn(input: SignInInput!): SignInResponse
     googleAuth(input: GoogleAuthInput!): AuthResponse!
 `;
-module.exports.mutations = mutations;
+export { mutations };

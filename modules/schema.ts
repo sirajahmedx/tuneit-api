@@ -1,5 +1,5 @@
-const { User } = require("./user");
-const { Service } = require("./service");
+import {User} from "./user";
+import {Service} from "./service";
 const schema = {
   typeDefs: `#graphql
 
@@ -35,10 +35,10 @@ const schema = {
     },
   },
   introspection: true,
-  formatError: (err) => ({
+  formatError: (err:any) => ({
     message: err.message,
     success: false,
   }),
 };
 
-module.exports = schema;
+export default schema;

@@ -1,16 +1,16 @@
-const { UserService } = require("./service");
+import { service } from "./service";
 
 const queries = {};
 
 const mutations = {
-  createCustomer: async (parent, args, context, info) => {
+  createCustomer: async (parent:any, args: { input: any }, context: any, info: any) => {
     try {
       if (!args.input) {
         throw new Error("Input is required");
       }
 
-      return await UserService.createCustomer(args.input);
-    } catch (error) {
+      return await service.createCustomer(args.input);
+    } catch (error:any) {
       return {
         success: false,
         message:
@@ -19,28 +19,28 @@ const mutations = {
     }
   },
 
-  updateCustomer: async (parent, args, context, info) => {
+  updateCustomer: async (parent:any, args: { input: any }, context: any, info: any) => {
     try {
       if (!args.input) {
         throw new Error("Input is required");
       }
 
-      return await UserService.updateCustomer(args);
-    } catch (error) {
+      return await service.updateCustomer(args);
+    } catch (error:any) {
       return {
         success: false,
         message: error.message || "An error occurred while updating the user",
       };
     }
   },
-  createMechanic: async (parent, args, context, info) => {
+  createMechanic: async (parent:any, args: { input: any }, context: any, info: any) => {
     try {
       if (!args.input) {
         throw new Error("Input is required");
       }
 
-      return await UserService.createMechanic(args);
-    } catch (error) {
+      return await service.createMechanic(args);
+    } catch (error:any) {
       return {
         success: false,
         message:
@@ -48,14 +48,14 @@ const mutations = {
       };
     }
   },
-  updateMechanic: async (parent, args, context, info) => {
+  updateMechanic: async (parent:any, args: { input: any }, context: any, info: any) => {
     try {
       if (!args.input) {
         throw new Error("Input is required");
       }
 
-      return await UserService.updateMechanic(args);
-    } catch (error) {
+      return await service.updateMechanic(args);
+    } catch (error:any) {
       return {
         success: false,
         message: error.message || "An error occurred while updating the user",
@@ -63,14 +63,14 @@ const mutations = {
     }
   },
 
-  signIn: async (parent, args, context, info) => {
+  signIn: async (parent:any, args: { input: any }, context: any, info: any) => {
     try {
       if (!args.input) {
         throw new Error("Input is required");
       }
 
-      return await UserService.signIn(args);
-    } catch (error) {
+      return await service.signIn(args);
+    } catch (error:any) {
       return {
         success: false,
         message: error.message || "An error occurred during sign in",
@@ -78,14 +78,14 @@ const mutations = {
     }
   },
 
-  googleAuth: async (parent, args, context, info) => {
+  googleAuth: async (parent:any, args: { input: any }, context: any, info: any) => {
     try {
       if (!args.input) {
         throw new Error("Input is required");
       }
 
-      return await UserService.googleAuth(args);
-    } catch (error) {
+      return await service.googleAuth(args);
+    } catch (error:any) {
       return {
         success: false,
         message: error.message,
@@ -94,7 +94,4 @@ const mutations = {
   },
 };
 
-module.exports.resolvers = {
-  queries,
-  mutations,
-};
+export const resolvers = { queries, mutations };

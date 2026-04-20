@@ -1,25 +1,27 @@
-const UserModel = require("./model");
-const { createHmac, randomBytes } = require("node:crypto");
-const JWT = require("jsonwebtoken");
+import {model} from "./model";
+import { createHmac, randomBytes } from "node:crypto";
+import JWT from "jsonwebtoken";
+import process from "node:process";
+ 
 
-function generateHash(salt, password) {
+function generateHash(salt: string, password: string) {
   const hashedPassword = createHmac("sha256", salt)
     .update(password)
     .digest("hex");
   return hashedPassword;
 }
 
-async function getUserByEmail(email) {
-  const user = await UserModel.findOne({ email });
+async function getUserByEmail(email: string) {
+  const user = await model.findOne({ email });
   return user || null;
 }
 
 // async function getUserByPhone(phone) {
-//   const user = await UserModel.findOne({ phone });
+//   const user = await model.findOne({ phone });
 //   return user || null;
 // }
 
-function generateToken(user) {
+function generateToken(user : any) {
   if (!user) throw new Error("User not found");
 
   if (!user.verified) throw new Error("User not verified");
@@ -33,10 +35,10 @@ function generateToken(user) {
       // phone: user.phone,
       role: user.role,
     },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET || "jwt_secret",
   );
 }
-async function createCustomer(args) {
+async function createCustomer(args: { input: any }) {
   try {
     const { input } = args;
     if (!input.first_name) throw new Error("First name is required");
@@ -66,14 +68,14 @@ async function createCustomer(args) {
       password: hashedPassword,
     };
 
-    const user = await UserModel.create(userData);
+    const user = await model.create(userData);
 
     if (!user) throw new Error("Failed to create user");
     return {
       success: true,
       message: "Customer Created successfully!",
     };
-  } catch (error) {
+  } catch (error:any) {
     return {
       success: false,
       message: error.message || "Failed to create customer",
@@ -81,12 +83,12 @@ async function createCustomer(args) {
   }
 }
 
-async function updateCustomer(args) {
+async function updateCustomer(args : { input: any }) {
   try {
     const { input } = args;
     if (!input._id) throw new Error("User ID is required");
 
-    const user = await UserModel.findById(input._id);
+    const user = await model.findById(input._id);
     if (!user) throw new Error("User not found");
 
     if (input.email && input.email !== user.email) {
@@ -106,7 +108,7 @@ async function updateCustomer(args) {
     const updatedData = { ...input };
     delete updatedData._id;
 
-    const updatedUser = await UserModel.findByIdAndUpdate(
+    const updatedUser = await   model.findByIdAndUpdate(
       args._id,
       { $set: updatedData },
       { new: true }
@@ -118,7 +120,7 @@ async function updateCustomer(args) {
       success: true,
       message: "User updated successfully!",
     };
-  } catch (error) {
+  } catch (error:any) {
     return {
       success: false,
       message: error.message || "Failed to update user",
@@ -126,7 +128,7 @@ async function updateCustomer(args) {
   }
 }
 
-async function createMechanic(args) {
+async function createMechanic(args:any) {
   try {
     const { input } = args;
     if (!input.first_name) throw new Error("First name is required");
@@ -156,14 +158,14 @@ async function createMechanic(args) {
       password: hashedPassword,
     };
 
-    const user = await UserModel.create(userData);
+    const user = await model.create(userData);
 
-    if (!user) throw new Error("Failed to create user");
+    if (!user) throw new Error("Failed to create user"); 
     return {
       success: true,
       message: "Mechanic Created successfully!",
     };
-  } catch (error) {
+  } catch (error:any) {
     return {
       success: false,
       message: error.message || "Failed to create mechanic",
@@ -171,12 +173,12 @@ async function createMechanic(args) {
   }
 }
 
-async function updateMechanic(args) {
+async function updateMechanic(args:any) {
   try {
     const { input } = args;
     if (!input._id) throw new Error("User ID is required");
 
-    const user = await UserModel.findById(input._id);
+    const user = await model.findById(input._id);
     if (!user) throw new Error("User not found");
 
     if (input.email && input.email !== user.email) {
@@ -196,7 +198,7 @@ async function updateMechanic(args) {
     const updatedData = { ...input };
     delete updatedData._id;
 
-    const updatedUser = await UserModel.findByIdAndUpdate(
+    const updatedUser = await model.findByIdAndUpdate(
       input._id,
       { $set: updatedData },
       { new: true }
@@ -208,7 +210,7 @@ async function updateMechanic(args) {
       success: true,
       message: "Mechanic updated successfully!",
     };
-  } catch (error) {
+  } catch (error:any) {
     return {
       success: false,
       message: error.message || "Failed to update user",
@@ -216,7 +218,7 @@ async function updateMechanic(args) {
   }
 }
 
-async function signIn(args) {
+async function signIn(args: { input: any }) {
   try {
     const { input } = args;
 
@@ -247,7 +249,7 @@ async function signIn(args) {
       const otp = "000000";
       const otpExpiry = Date.now() + 3600000;
 
-      await UserModel.findByIdAndUpdate(user._id, {
+      await model.findByIdAndUpdate(user._id, {
         otp,
         otp_expiry: otpExpiry,
       });
@@ -289,7 +291,7 @@ async function signIn(args) {
         onboarded: onboarded,
       },
     };
-  } catch (error) {
+  } catch (error:any) {
     console.error(error);
     throw new Error(
       error.message || "An error occurred while processing the request."
@@ -297,13 +299,13 @@ async function signIn(args) {
   }
 }
 
-const googleAuth = async (args) => {
+const googleAuth = async (args: { input: any }) => {
   try {
     const { input } = args;
-    let user = await UserModel.findOne({ email: input.email });
+    let user = await model.findOne({ email: input.email });
 
     if (!user) {
-      user = new UserModel({
+      user = new model({
         first_name: input.first_name,
         last_name: input.last_name,
         email: input.email,
@@ -346,8 +348,8 @@ const googleAuth = async (args) => {
     };
   }
 };
-module.exports.UserService = {
-  getUserByEmail,
+export const service = {
+    getUserByEmail,
   // getUserByPhone,
   createCustomer,
   updateCustomer,
@@ -355,4 +357,4 @@ module.exports.UserService = {
   updateMechanic,
   signIn,
   googleAuth,
-};
+}
